@@ -242,7 +242,7 @@ def about():
 
 
 def help():
-    webbrowser.open('http://kryptera.tunedal.nu')
+    webbrowser.open('https://tunedal.nu/nedladdning.htm')
 
 
 def quit():
