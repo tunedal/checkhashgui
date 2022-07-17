@@ -46,6 +46,11 @@ class HashCheckTest(TestCase):
         message = check_hash(b"hello\n", input_hash)
         self.assert_ok(message)
 
+    def test_file_input_error_is_displayed(self):
+        message = check("/tmp/bad/filename/sn3t4ohtu", "a" * 40)
+        self.assertIn("No such file or directory", message)
+        self.assertNotIn("OK", message)
+
     def assert_ok(self, message):
         self.assertIn("Kontrollsumman OK av filen", message)
         self.assertIn(":-)", message)
