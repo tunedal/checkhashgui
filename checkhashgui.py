@@ -78,16 +78,16 @@ def clear_text():
 
 
 def browse():
-    file = filedialog.askopenfilename(title="Open a file...")
-    InputString1.set(file)
+    filename = filedialog.askopenfilename(title="Open a file...")
+    InputString1.set(filename)
 
 
 def check():
     text = ""
     # gets the the file to check
-    file = InputString1.get()
+    filename = InputString1.get()
 
-    if len(file) == 0:
+    if len(filename) == 0:
         text = text + '=======================\n'
         text = text + 'FEL: ingen fil angiven!\n'
         text = text + '=======================\n'
@@ -95,30 +95,30 @@ def check():
         print(text)
 
     # gets the hash to check against
-    hash = textw.get('1.0', 'end')
+    input_hash = textw.get('1.0', 'end')
 
     #removes new line character
-    hash = hash[:-1]
+    input_hash = input_hash[:-1]
 
     # removes blank spaces at the ends
-    #hash = hash.trim()
+    #input_hash = input_hash.trim()
 
-    text = text + 'Fil: ' + file + '\n\n'
+    text = text + 'Fil: ' + filename + '\n\n'
 
     # ta bort osynliga tecken i början och slutet
-    hash = hash.strip()
+    input_hash = input_hash.strip()
 
     # ta bort blanka
-    hash = hash.replace(" ","")
+    input_hash = input_hash.replace(" ","")
 
     # ta bort radbrytningar
-    hash = hash.replace("\n","")
+    input_hash = input_hash.replace("\n","")
 
     text = text + 'hash:\n'
-    text = text + hash + '\n\n'
+    text = text + input_hash + '\n\n'
 
     # längd på kontrollsumman
-    hashlength = len(hash)
+    hashlength = len(input_hash)
     htext = 'Antar kontrollsummealgoritmen (HASH): '
 
     # HEX-format
@@ -164,7 +164,7 @@ def check():
         # Läser en bit i taget, så att man kan kolla även filer som inte ryms i minnet.
 
         try:
-            f = open(file, 'rb')
+            f = open(filename, 'rb')
         except IOError as e:
             text = text + '=========================================================================' + '\n'
             text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
@@ -195,18 +195,19 @@ def check():
         newhash = hasher.hexdigest()
 
         text = text + 'Angiven kontrollsumma (hash):' + '\n'
-        text = text + hash + "\n" + "\n"
+        text = text + input_hash + "\n" + "\n"
         #text = text + u'Beräknad kontrollsumma (hash): ' + '\n'
         text = text + 'Calculated checksum (hash): ' + '\n'
         text = text + newhash + '\n'
         text = text + newhash.upper() + '\n\n'
 
-        okmessage = 'OK!\n\nKontrollsumman OK av filen:\n' + file + '\n\n:-)'
+        okmessage = ('OK!\n\nKontrollsumman OK av filen:\n'
+                     + filename + '\n\n:-)')
 
-        if hash == newhash:
+        if input_hash == newhash:
             text = text + okmessage
 
-        elif hash == newhash.upper():
+        elif input_hash == newhash.upper():
             text = text + okmessage
         else:
             text = text + '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
