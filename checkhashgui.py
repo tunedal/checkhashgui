@@ -254,8 +254,7 @@ def check(filename, input_hash):
 
         text = text + 'Angiven kontrollsumma (hash):' + '\n'
         text = text + input_hash + "\n" + "\n"
-        #text = text + u'Beräknad kontrollsumma (hash): ' + '\n'
-        text = text + 'Calculated checksum (hash): ' + '\n'
+        text = text + 'Beräknad kontrollsumma (hash): ' + '\n'
         text = text + newhash + '\n'
         text = text + newhash.upper() + '\n\n'
 
