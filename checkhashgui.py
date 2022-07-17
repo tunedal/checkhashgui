@@ -54,24 +54,27 @@ textw.insert(INSERT, "Please enter the hash here ...")
 textw.grid(row=2, columnspan=4)
 
 
-def GetString():
+def get_string():
     # Browse button
     tk.Button(root, text=' Browse ... ', command=browse).grid(row=1, column=2, sticky=E)
     tk.Button(root, text=' Help ', command=help).grid(row=0, column=3, sticky=E)
     tk.Button(root, text='About', command=about).grid(row=1, column=3, sticky=E)
-    tk.Button(root, text='Clear', command=ClearText).grid(row=3, column=0, sticky=W)
-    tk.Button(root, text='Check', fg="white", bg="blue", command=Check).grid(row=3, column=1, sticky=W)
+    tk.Button(root, text='Clear', command=clear_text).grid(row=3, column=0, sticky=W)
+    tk.Button(root, text='Check', fg="white", bg="blue", command=check).grid(row=3, column=1, sticky=W)
     tk.Button(root, text='QUIT', command=quit).grid(row=3, column=3, sticky=E)
     root.mainloop()
 
-def ClearText():
+
+def clear_text():
     textw.delete('0.0', END)
+
 
 def browse():
     file = filedialog.askopenfilename(title="Open a file...")
     InputString1.set(file)
 
-def Check():
+
+def check():
     text = ""
     # gets the the file to check
     file = InputString1.get()
@@ -206,8 +209,8 @@ def Check():
         # Inserts decrypted text
         textw.insert('0.0', text)
 
-def about():
 
+def about():
     text = 'CHECKHASHGUI - Calculates the checksum of file and compares it with user input.\n\n'
     text = text + 'Copyright (c) 2012-2014 Per Tunedal, Stockholm, Sweden\n'
     text = text + 'Author: Per Tunedal <info@tunedal.nu>\n'
@@ -228,11 +231,14 @@ def about():
     # Inserts new text
     textw.insert('0.0', text)
 
+
 def help():
     webbrowser.open('http://kryptera.tunedal.nu')
+
 
 def quit():
     root.withdraw()
     root.quit()
 
-GetString()
+
+get_string()
