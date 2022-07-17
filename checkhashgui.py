@@ -37,7 +37,7 @@ from tkinter import E, W, INSERT, END
 
 
 def main():
-    global root, InputString1, textw
+    global root, filename_input, textw
 
     root = tk.Tk()
 
@@ -50,8 +50,8 @@ def main():
     c1 = tk.Label(root, text="Please enter the FILENAME (full path): ")
     c1.grid(row=1, column=0, sticky=E)
 
-    InputString1 = tk.StringVar()
-    tk.Entry(root, width=30, textvariable=InputString1).grid(
+    filename_input = tk.StringVar()
+    tk.Entry(root, width=30, textvariable=filename_input).grid(
         row=1, column=1, columnspan=3, sticky=W)
 
     # wrap=word breaks too long lines after a word, not a character.
@@ -79,13 +79,13 @@ def clear_text():
 
 def browse():
     filename = filedialog.askopenfilename(title="Open a file...")
-    InputString1.set(filename)
+    filename_input.set(filename)
 
 
 def check():
     text = ""
     # gets the the file to check
-    filename = InputString1.get()
+    filename = filename_input.get()
 
     if len(filename) == 0:
         text = text + '=======================\n'
