@@ -7,15 +7,39 @@ from checkhashgui import check
 
 
 class HashCheckTest(TestCase):
-    def test_valid_sha1_is_ok(self):
-        input_hash = "f572d396fae9206628714fb2ce00f72e94f2258f"
-        message = check_hash(b"hello\n", input_hash)
-        self.assert_ok(message)
+    def test_valid_hash_is_ok(self):
+        hashes = [
+            "f572d396fae9206628714fb2ce00f72e94f2258f",
+            "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            ("e7c22b994c59d9cf2b48e549b1e24666636045930d3da7c1acb299" +
+             "d1c3b7f931f94aae41edda2c2b207a36e10f8bcb8d45223e54878f" +
+             "5b316e7ce3b6bc019629"),
+            "b1946ac92492d2347c6235b4d2611184",
+        ]
+        for input_hash in hashes:
+            with self.subTest(input_hash):
+                message = check_hash(b"hello\n", input_hash)
+                self.assert_ok(message)
 
-    def test_invalid_sha1_is_detected(self):
-        input_hash = "f572d396fae9206628714fb2ce00f72e94f2358f"
-        message = check_hash(b"hello\n", input_hash)
-        self.assert_invalid(message)
+    def test_invalid_hash_is_detected(self):
+        hashes = [
+            "f572d396fae9206627714fb2ce00f72e94f2258f",
+            "5891b5b522d5df186d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            ("e7c22b994c59d9cf2b48c549b1e24666636045930d3da7c1acb299" +
+             "d1c3b7f931f94aae41eddb2c2b207a36e10f8bcb8d45223e54878f" +
+             "5b316e7ce3b6bc019629"),
+            "b1946ac92492d2347c6235b4d2611084",
+        ]
+        for input_hash in hashes:
+            with self.subTest(input_hash):
+                message = check_hash(b"hello\n", input_hash)
+                self.assert_invalid(message)
+
+    def test_invalid_hash_format_is_detected(self):
+        message = check_hash(b"hello\n", "nonsense hash value")
+        self.assertIn("ERROR: Unknown hash algorithm", message)
+        self.assertNotIn("Kontrollsumman OK av filen", message)
+        self.assertNotIn(":-)", message)
 
     def assert_ok(self, message):
         self.assertIn("Kontrollsumman OK av filen", message)
