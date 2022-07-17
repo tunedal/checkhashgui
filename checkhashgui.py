@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+#!/usr/bin/env python3
 
 # CHECKHASHGUI - Calculates the checksum of file and compares it with user input.
 # Version: 0.2
@@ -34,8 +33,8 @@
 
 import sys, hashlib, time
 #import sys, hashlib, string, time
-from Tkinter import *
-import tkFileDialog
+from tkinter import *
+import tkinter.filedialog
 import webbrowser
 
 root = Tk()
@@ -71,7 +70,7 @@ def ClearText():
     textw.delete('0.0', END)
 
 def browse():
-    file = tkFileDialog.askopenfilename(title="Open a file...")
+    file = tkinter.filedialog.askopenfilename(title="Open a file...")
     InputString1.set(file)
 
 def Check():
@@ -83,8 +82,8 @@ def Check():
         text = text + '=======================\n'
         text = text + 'FEL: ingen fil angiven!\n'
         text = text + '=======================\n'
-        print ""
-        print text
+        print("")
+        print(text)
 
     # gets the hash to check against
     hash = textw.get('1.0', 'end')
@@ -114,7 +113,7 @@ def Check():
     htext = 'Antar kontrollsummealgoritmen (HASH): '
 
     # HEX-format
-    text = text + u'Kontrollsummans längd (bitar): '
+    text = text + 'Kontrollsummans längd (bitar): '
     #text = text + 'hash length: '
     text = text + str(hashlength * 4) + '\n\n'
 
@@ -137,7 +136,7 @@ def Check():
         hasher  = hashlib.sha512()
 
     else:
-        text = text + u'Längden ska vara 128, 160, 256 eller 512 bitar' + '\n\n'
+        text = text + 'Längden ska vara 128, 160, 256 eller 512 bitar' + '\n\n'
         text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!\n'
         text = text + 'ERROR: Unknown hash algorithm\n'
         text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!'
@@ -163,14 +162,14 @@ def Check():
             text = text + "!!! I/O error({0}): {1}".format(e.errno, e.strerror) + "!!!\n"
             text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
             text = text + '=========================================================================' + '\n\n'
-            print text
+            print(text)
             textw.delete('0.0', END)
             textw.insert('0.0', text)
         except:
             text = text + '=========================================================================' + '\n'
             text = text + "!!! Unknown ERROR !!!"
             text = text + '=========================================================================' + '\n'
-            print text
+            print(text)
             textw.delete('0.0', END)
             textw.insert('0.0', text)
 
