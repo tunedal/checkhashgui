@@ -68,7 +68,9 @@ class MainController:
         self._view.clear_text()
 
     def browse(self):
-        self._view.set_filename(self._view.show_open_file_dialog())
+        filename = self._view.show_open_file_dialog()
+        if filename:
+            self._view.set_filename(filename)
 
     def check(self):
         view = self._view
@@ -115,7 +117,8 @@ class MainView:
         self._filename_input.set(str(filename))
 
     def show_open_file_dialog(self):
-        return filedialog.askopenfilename(title="Open a file...")
+        filename = filedialog.askopenfilename(title="Open a file...")
+        return filename or None
 
 
 def build_ui(root, controller_factory):
