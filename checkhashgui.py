@@ -33,7 +33,7 @@
 
 import hashlib, webbrowser
 import tkinter as tk, tkinter.filedialog as filedialog
-from tkinter import E, W, INSERT, END
+from tkinter import E, W, S, N, INSERT, END
 
 
 def main():
@@ -57,7 +57,12 @@ def main():
     # wrap=word breaks too long lines after a word, not a character.
     textw = tk.Text(root, wrap="word")
     textw.insert(INSERT, "Please enter the hash here ...")
-    textw.grid(row=2, columnspan=4)
+    textw.grid(row=2, columnspan=4, sticky=E + W + S + N)
+
+    root.rowconfigure(2, weight=1)
+
+    root.columnconfigure(0, weight=1)
+    root.columnconfigure(1, weight=1)
 
     get_string()
 
