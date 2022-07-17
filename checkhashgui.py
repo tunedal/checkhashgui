@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 # CHECKHASHGUI - Calculates the checksum of file and compares it with user input.
-# Version: 0.2
+# Version: 0.3
 
 # Copyright (c) 2012-2014 Per Tunedal, Stockholm, Sweden
 # Author: Per Tunedal <info@tunedal.nu>
+
+# Minor modifications by Henrik Tunedal (2022).
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,6 +31,11 @@
 # Fixed problems with unicode characters in text and file names
 # NB Always save this file as unicode (UTF-8).
 # Minor improvements. Cleaning of code and comments.
+
+# 0.3 (by Henrik Tunedal)
+# Updated for Python 3.
+# Minor layout fixes.
+# Minor code cleanup.
 
 
 import hashlib, webbrowser
