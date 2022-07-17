@@ -172,12 +172,12 @@ def check(filename, input_hash):
     text = ""
 
     if len(filename) == 0:
-        text = text + '=======================\n'
-        text = text + 'FEL: ingen fil angiven!\n'
-        text = text + '=======================\n'
+        text += '=======================\n'
+        text += 'FEL: ingen fil angiven!\n'
+        text += '=======================\n'
         return text
 
-    text = text + 'Fil: ' + filename + '\n\n'
+    text += 'Fil: ' + filename + '\n\n'
 
     # ta bort osynliga tecken i början och slutet
     input_hash = input_hash.strip()
@@ -188,16 +188,16 @@ def check(filename, input_hash):
     # ta bort radbrytningar
     input_hash = input_hash.replace("\n","")
 
-    text = text + 'hash:\n'
-    text = text + input_hash + '\n\n'
+    text += 'hash:\n'
+    text += input_hash + '\n\n'
 
     # längd på kontrollsumman
     hashlength = len(input_hash)
     htext = 'Antar kontrollsummealgoritmen (HASH): '
 
     # HEX-format
-    text = text + 'Kontrollsummans längd (bitar): '
-    text = text + str(hashlength * 4) + '\n\n'
+    text += 'Kontrollsummans längd (bitar): '
+    text += str(hashlength * 4) + '\n\n'
 
     if hashlength == 32:
         hashtype = 'md5'
@@ -212,14 +212,14 @@ def check(filename, input_hash):
         hashtype =  'sha512'
         hasher  = hashlib.sha512()
     else:
-        text = text + 'Längden ska vara 128, 160, 256 eller 512 bitar' + '\n\n'
-        text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!\n'
-        text = text + 'ERROR: Unknown hash algorithm\n'
-        text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!'
+        text += 'Längden ska vara 128, 160, 256 eller 512 bitar' + '\n\n'
+        text += 'ERROR: !!!!!!!!!!!!!!!!!!!!!!\n'
+        text += 'ERROR: Unknown hash algorithm\n'
+        text += 'ERROR: !!!!!!!!!!!!!!!!!!!!!!'
         return text
 
     # Skriv ut antagen hash-typ
-    text = text + htext + hashtype + "\n\n"
+    text += htext + hashtype + "\n\n"
 
     separator = '=' * 73
 
@@ -230,36 +230,36 @@ def check(filename, input_hash):
             while chunk := f.read(1024):
                 hasher.update(chunk)
     except IOError as e:
-        text = text + separator + '\n'
-        text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-        text = text + "!!! I/O error({0}): {1}".format(e.errno, e.strerror) + "!!!\n"
-        text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-        text = text + separator + '\n\n'
+        text += separator + '\n'
+        text += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+        text += "!!! I/O error({0}): {1}".format(e.errno, e.strerror) + "!!!\n"
+        text += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+        text += separator + '\n\n'
         return text
     except Exception:
-        text = text + separator + '\n'
-        text = text + "!!! Unknown ERROR !!!"
-        text = text + separator + '\n'
+        text += separator + '\n'
+        text += "!!! Unknown ERROR !!!"
+        text += separator + '\n'
         return text
 
     newhash = hasher.hexdigest()
 
-    text = text + 'Angiven kontrollsumma (hash):' + '\n'
-    text = text + input_hash + "\n" + "\n"
-    text = text + 'Beräknad kontrollsumma (hash): ' + '\n'
-    text = text + newhash + '\n'
-    text = text + newhash.upper() + '\n\n'
+    text += 'Angiven kontrollsumma (hash):' + '\n'
+    text += input_hash + "\n" + "\n"
+    text += 'Beräknad kontrollsumma (hash): ' + '\n'
+    text += newhash + '\n'
+    text += newhash.upper() + '\n\n'
 
     okmessage = ('OK!\n\nKontrollsumman OK av filen:\n'
                  + filename + '\n\n:-)')
 
     if input_hash == newhash:
-        text = text + okmessage
+        text += okmessage
     elif input_hash == newhash.upper():
-        text = text + okmessage
+        text += okmessage
     else:
-        text = text + '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
-        text = text + separator + '\n'
+        text += '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
+        text += separator + '\n'
 
     return text
 
