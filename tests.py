@@ -51,6 +51,12 @@ class HashCheckTest(TestCase):
         self.assertIn("No such file or directory", message)
         self.assertNotIn("OK", message)
 
+    def test_all_chunks_for_file_are_processed(self):
+        lots_of_data = b"a" * 100_000 + b"\n"
+        input_hash = "275eb5b380c47dc2e274f16249ff334f642d4265"
+        self.assert_ok(check_hash(lots_of_data, input_hash))
+        self.assert_invalid(check_hash(lots_of_data + b"a", input_hash))
+
     def assert_ok(self, message):
         self.assertIn("Kontrollsumman OK av filen", message)
         self.assertIn(":-)", message)

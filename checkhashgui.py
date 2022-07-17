@@ -221,12 +221,14 @@ def check(filename, input_hash):
     # Skriv ut antagen hash-typ
     text = text + htext + hashtype + "\n\n"
 
-    # Läser en bit i taget, så att man kan kolla även filer som inte ryms i minnet.
-
     separator = '=' * 73
 
     try:
-        f = open(filename, 'rb')
+        with open(filename, 'rb') as f:
+            # Läser en bit i taget, så att man kan kolla även filer
+            # som inte ryms i minnet.
+            while chunk := f.read(1024):
+                hasher.update(chunk)
     except IOError as e:
         text = text + separator + '\n'
         text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
@@ -239,15 +241,6 @@ def check(filename, input_hash):
         text = text + "!!! Unknown ERROR !!!"
         text = text + separator + '\n'
         return text
-
-    try:
-        while True:
-            chunk = f.read(1024)
-            if not chunk:
-                break
-            hasher.update(chunk)
-    finally:
-        f.close()
 
     newhash = hasher.hexdigest()
 
