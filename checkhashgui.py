@@ -42,12 +42,75 @@ import hashlib, webbrowser
 import tkinter as tk, tkinter.ttk as ttk
 import tkinter.filedialog as filedialog
 from tkinter import E, W, S, N, INSERT, END
+from functools import partial
 
 
 def main():
-    global root, filename_input, textw
-
     root = tk.Tk()
+    app = App(root)
+    build_ui(root, partial(MainController, app))
+    root.mainloop()
+
+
+class MainController:
+    def __init__(self, app, view):
+        self._app = app
+        self._view = view
+
+    def clear_text(self):
+        self._view.clear_text()
+
+    def browse(self):
+        self._view.set_filename(self._view.show_open_file_dialog())
+
+    def check(self):
+        view = self._view
+        check(view.get_filename(), view.get_text(), view)
+
+    def about(self):
+        self._view.set_text(about())
+
+    def help(self):
+        webbrowser.open('https://tunedal.nu/nedladdning.htm')
+
+    def quit(self):
+        self._app.close()
+
+
+class App:
+    def __init__(self, root):
+        self._root = root
+
+    def close(self):
+        self._root.destroy()
+
+
+class MainView:
+    def __init__(self, textw, filename_input):
+        self._textw = textw
+        self._filename_input = filename_input
+
+    def get_text(self):
+        return self._textw.get('1.0', 'end')
+
+    def set_text(self, text):
+        self._textw.delete('0.0', END)
+        self._textw.insert('0.0', text)
+
+    def clear_text(self):
+        self._textw.delete('0.0', END)
+
+    def get_filename(self):
+        return self._filename_input.get()
+
+    def set_filename(self, filename):
+        self._filename_input.set(str(filename))
+
+    def show_open_file_dialog(self):
+        return filedialog.askopenfilename(title="Open a file...")
+
+
+def build_ui(root, controller_factory):
     root.title("CHECK HASH")
 
     content = ttk.Frame(root)
@@ -69,20 +132,24 @@ def main():
     textw.insert(INSERT, "Please enter the hash here ...")
     textw.grid(row=2, columnspan=4, sticky=E + W + S + N)
 
-    ttk.Button(content, text=' Browse ... ', command=browse).grid(
-        row=1, column=2, sticky=E)
-    ttk.Button(content, text=' Help ', command=help).grid(
-        row=0, column=3, sticky=E)
-    ttk.Button(content, text='About', command=about).grid(
-        row=1, column=3, sticky=E)
+    controller = controller_factory(MainView(textw, filename_input))
+
+    ttk.Button(content, text=' Browse ... ', command=controller.browse
+               ).grid(row=1, column=2, sticky=E)
+    ttk.Button(content, text=' Help ', command=controller.help
+               ).grid(row=0, column=3, sticky=E)
+    ttk.Button(content, text='About', command=controller.about
+               ).grid(row=1, column=3, sticky=E)
 
     button_frame = ttk.Frame(content)
-    ttk.Button(button_frame, text='Clear', command=clear_text).grid(
-        row=0, column=0, sticky=W)
+    ttk.Button(button_frame, text='Clear', command=controller.clear_text
+               ).grid(row=0, column=0, sticky=W)
     tk.Button(button_frame, text='Check', fg="white", bg="blue",
-              command=check).grid(row=0, column=1, ipadx=20)
-    ttk.Button(button_frame, text='QUIT', command=quit).grid(
-        row=0, column=2, sticky=E)
+              command=controller.check
+              ).grid(row=0, column=1, ipadx=20)
+    ttk.Button(button_frame, text='QUIT', command=controller.quit
+               ).grid(row=0, column=2, sticky=E)
+
     button_frame.columnconfigure(1, weight=1)
     button_frame.grid(row=3, column=0, columnspan=4, sticky=E + W)
 
@@ -92,22 +159,9 @@ def main():
     root.rowconfigure(0, weight=1)
     root.columnconfigure(0, weight=1)
 
-    root.mainloop()
 
-
-def clear_text():
-    textw.delete('0.0', END)
-
-
-def browse():
-    filename = filedialog.askopenfilename(title="Open a file...")
-    filename_input.set(filename)
-
-
-def check():
+def check(filename, input_hash, view):
     text = ""
-    # gets the the file to check
-    filename = filename_input.get()
 
     if len(filename) == 0:
         text = text + '=======================\n'
@@ -115,9 +169,6 @@ def check():
         text = text + '=======================\n'
         print("")
         print(text)
-
-    # gets the hash to check against
-    input_hash = textw.get('1.0', 'end')
 
     #removes new line character
     input_hash = input_hash[:-1]
@@ -173,10 +224,7 @@ def check():
         text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!'
 
     if len(hashtype) == 0:
-        # Deletes text in the text window
-        textw.delete('0.0', END)
-        # Inserts message
-        textw.insert('0.0', text)
+        view.set_text(text)
 
     else:
 
@@ -196,15 +244,13 @@ def check():
             text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
             text = text + separator + '\n\n'
             print(text)
-            textw.delete('0.0', END)
-            textw.insert('0.0', text)
+            view.set_text(text)
         except:
             text = text + separator + '\n'
             text = text + "!!! Unknown ERROR !!!"
             text = text + separator + '\n'
             print(text)
-            textw.delete('0.0', END)
-            textw.insert('0.0', text)
+            view.set_text(text)
 
         else:
             try:
@@ -237,10 +283,7 @@ def check():
             text = text + '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
             text = text + separator + '\n'
 
-        # Deletes text in the text window
-        textw.delete('0.0', END)
-        # Inserts decrypted text
-        textw.insert('0.0', text)
+        view.set_text(text)
 
 
 def about():
@@ -260,19 +303,7 @@ def about():
     text = text + 'You should have received a copy of the GNU General Public License '
     text = text + 'along with this program.  If not, see <http://www.gnu.org/licenses/>.\n'
 
-    # Deletes text in the text window
-    textw.delete('0.0', END)
-    # Inserts new text
-    textw.insert('0.0', text)
-
-
-def help():
-    webbrowser.open('https://tunedal.nu/nedladdning.htm')
-
-
-def quit():
-    root.withdraw()
-    root.quit()
+    return text
 
 
 if __name__ == "__main__":
