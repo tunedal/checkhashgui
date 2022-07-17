@@ -58,13 +58,11 @@ class HashCheckTest(TestCase):
 
 
 def check_hash(content, input_hash):
-    view = Mock()
     with TemporaryDirectory() as tempdir:
         filename = Path(tempdir) / "test.txt"
         with filename.open("wb") as f:
             f.write(content)
-        check(str(filename), input_hash + "\n", view)
-    return view.set_text.call_args.args[0]
+        return check(str(filename), input_hash + "\n")
 
 
 if __name__ == "__main__":

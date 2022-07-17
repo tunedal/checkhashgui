@@ -65,7 +65,8 @@ class MainController:
 
     def check(self):
         view = self._view
-        check(view.get_filename(), view.get_text(), view)
+        message = check(view.get_filename(), view.get_text())
+        view.set_text(message)
 
     def about(self):
         self._view.set_text(about())
@@ -160,7 +161,7 @@ def build_ui(root, controller_factory):
     root.columnconfigure(0, weight=1)
 
 
-def check(filename, input_hash, view):
+def check(filename, input_hash):
     text = ""
 
     if len(filename) == 0:
@@ -169,12 +170,6 @@ def check(filename, input_hash, view):
         text = text + '=======================\n'
         print("")
         print(text)
-
-    #removes new line character
-    input_hash = input_hash[:-1]
-
-    # removes blank spaces at the ends
-    #input_hash = input_hash.trim()
 
     text = text + 'Fil: ' + filename + '\n\n'
 
@@ -196,10 +191,7 @@ def check(filename, input_hash, view):
 
     # HEX-format
     text = text + 'Kontrollsummans längd (bitar): '
-    #text = text + 'hash length: '
     text = text + str(hashlength * 4) + '\n\n'
-
-    hashtype = ""
 
     if hashlength == 32:
         hashtype = 'md5'
@@ -222,11 +214,9 @@ def check(filename, input_hash, view):
         text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!\n'
         text = text + 'ERROR: Unknown hash algorithm\n'
         text = text + 'ERROR: !!!!!!!!!!!!!!!!!!!!!!'
+        return text
 
-    if len(hashtype) == 0:
-        view.set_text(text)
-
-    else:
+    if hashtype:
 
         # Skriv ut antagen hash-typ
         text = text + htext + hashtype + "\n\n"
@@ -243,14 +233,12 @@ def check(filename, input_hash, view):
             text = text + "!!! I/O error({0}): {1}".format(e.errno, e.strerror) + "!!!\n"
             text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
             text = text + separator + '\n\n'
-            print(text)
-            view.set_text(text)
-        except:
+            return text
+        except Exception:
             text = text + separator + '\n'
             text = text + "!!! Unknown ERROR !!!"
             text = text + separator + '\n'
-            print(text)
-            view.set_text(text)
+            return text
 
         else:
             try:
@@ -283,7 +271,7 @@ def check(filename, input_hash, view):
             text = text + '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
             text = text + separator + '\n'
 
-        view.set_text(text)
+        return text
 
 
 def about():
