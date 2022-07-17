@@ -35,23 +35,31 @@ import hashlib, webbrowser
 import tkinter as tk, tkinter.filedialog as filedialog
 from tkinter import E, W, INSERT, END
 
-root = tk.Tk()
 
-root.title("CHECK HASH")
+def main():
+    global root, InputString1, textw
 
-c0 = tk.Label(root, text="Check the HASH of a file", font="georgia 16 bold")
-c0.grid(row=0, column=0, columnspan=3)
+    root = tk.Tk()
 
-c1 = tk.Label(root, text="Please enter the FILENAME (full path): ")
-c1.grid(row=1, column=0, sticky=E)
+    root.title("CHECK HASH")
 
-InputString1 = tk.StringVar()
-tk.Entry(root, width=30, textvariable=InputString1).grid(row=1, column=1, columnspan=3, sticky=W)
+    c0 = tk.Label(root, text="Check the HASH of a file",
+                  font="georgia 16 bold")
+    c0.grid(row=0, column=0, columnspan=3)
 
-# wrap=word breaks too long lines after a word, not a character.
-textw = tk.Text(root, wrap="word")
-textw.insert(INSERT, "Please enter the hash here ...")
-textw.grid(row=2, columnspan=4)
+    c1 = tk.Label(root, text="Please enter the FILENAME (full path): ")
+    c1.grid(row=1, column=0, sticky=E)
+
+    InputString1 = tk.StringVar()
+    tk.Entry(root, width=30, textvariable=InputString1).grid(
+        row=1, column=1, columnspan=3, sticky=W)
+
+    # wrap=word breaks too long lines after a word, not a character.
+    textw = tk.Text(root, wrap="word")
+    textw.insert(INSERT, "Please enter the hash here ...")
+    textw.grid(row=2, columnspan=4)
+
+    get_string()
 
 
 def get_string():
@@ -241,4 +249,5 @@ def quit():
     root.quit()
 
 
-get_string()
+if __name__ == "__main__":
+    main()
