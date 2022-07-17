@@ -41,6 +41,11 @@ class HashCheckTest(TestCase):
         self.assertNotIn("Kontrollsumman OK av filen", message)
         self.assertNotIn(":-)", message)
 
+    def test_whitespace_in_hash_is_ignored(self):
+        input_hash = "\r\nf572d396f ae92066 28714fb2ce00f72e94f2258f\n  \n"
+        message = check_hash(b"hello\n", input_hash)
+        self.assert_ok(message)
+
     def assert_ok(self, message):
         self.assertIn("Kontrollsumman OK av filen", message)
         self.assertIn(":-)", message)
