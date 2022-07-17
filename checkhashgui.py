@@ -163,21 +163,23 @@ def check():
 
         # Läser en bit i taget, så att man kan kolla även filer som inte ryms i minnet.
 
+        separator = '=' * 73
+
         try:
             f = open(filename, 'rb')
         except IOError as e:
-            text = text + '=========================================================================' + '\n'
+            text = text + separator + '\n'
             text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
             text = text + "!!! I/O error({0}): {1}".format(e.errno, e.strerror) + "!!!\n"
             text = text + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
-            text = text + '=========================================================================' + '\n\n'
+            text = text + separator + '\n\n'
             print(text)
             textw.delete('0.0', END)
             textw.insert('0.0', text)
         except:
-            text = text + '=========================================================================' + '\n'
+            text = text + separator + '\n'
             text = text + "!!! Unknown ERROR !!!"
-            text = text + '=========================================================================' + '\n'
+            text = text + separator + '\n'
             print(text)
             textw.delete('0.0', END)
             textw.insert('0.0', text)
@@ -211,7 +213,7 @@ def check():
             text = text + okmessage
         else:
             text = text + '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
-            text = text + '=========================================================================' + '\n'
+            text = text + separator + '\n'
 
         # Deletes text in the text window
         textw.delete('0.0', END)
