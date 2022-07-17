@@ -1,41 +1,48 @@
 #!/usr/bin/env python3
 
-# CHECKHASHGUI - Calculates the checksum of file and compares it with user input.
-# Version: 0.3
+"""
+CHECKHASHGUI - Calculates the checksum of file and compares it with user input.
+Version: 0.x
 
-# Copyright (c) 2012-2014 Per Tunedal, Stockholm, Sweden
-# Author: Per Tunedal <info@tunedal.nu>
+Copyright (c) 2012-2014 Per Tunedal, Stockholm, Sweden
+Author: Per Tunedal <info@tunedal.nu>
 
-# Minor modifications by Henrik Tunedal (2022).
+Copyright (c) 2022 Henrik Tunedal
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
 
 # Changes:
+#
 # 0.1
 # GUI for checking hashes of files.
-
+#
 # 0.2
 # Added handling of exceptions e.g. file not found.
 # Added handling of errors in input.
 # Fixed problems with unicode characters in text and file names
 # NB Always save this file as unicode (UTF-8).
 # Minor improvements. Cleaning of code and comments.
-
+#
 # 0.3 (by Henrik Tunedal)
 # Updated for Python 3.
 # Minor layout fixes.
 # Minor code cleanup.
+#
+# 0.x (by Henrik Tunedal)
+# Added unit tests.
+# Refactored code.
 
 
 import hashlib, webbrowser
@@ -69,7 +76,7 @@ class MainController:
         view.set_text(message)
 
     def about(self):
-        self._view.set_text(about())
+        self._view.set_text(__doc__.strip())
 
     def help(self):
         webbrowser.open('https://tunedal.nu/nedladdning.htm')
@@ -260,26 +267,6 @@ def check(filename, input_hash):
     else:
         text = text + '*** !!! VARNING: Felaktig kontrollsumma. !!! ***' + '\n'
         text = text + separator + '\n'
-
-    return text
-
-
-def about():
-    text = 'CHECKHASHGUI - Calculates the checksum of file and compares it with user input.\n\n'
-    text = text + 'Copyright (c) 2012-2014 Per Tunedal, Stockholm, Sweden\n'
-    text = text + 'Author: Per Tunedal <info@tunedal.nu>\n'
-    text = text + 'www.kryptera.tunedal.nu\n\n'
-    text = text + 'Minor modifications by Henrik Tunedal (2022).\n\n'
-    text = text + 'This program is free software: you can redistribute it and/or modify '
-    text = text + 'it under the terms of the GNU General Public License as published by '
-    text = text + 'the Free Software Foundation, either version 3 of the License, or '
-    text = text + '(at your option) any later version.\n\n'
-    text = text + 'This program is distributed in the hope that it will be useful, '
-    text = text + 'but WITHOUT ANY WARRANTY; without even the implied warranty of '
-    text = text + 'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the '
-    text = text + 'GNU General Public License for more details.\n'
-    text = text + 'You should have received a copy of the GNU General Public License '
-    text = text + 'along with this program.  If not, see <http://www.gnu.org/licenses/>.\n'
 
     return text
 

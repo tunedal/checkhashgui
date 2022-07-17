@@ -3,7 +3,7 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase, main
 from unittest.mock import Mock
 
-from checkhashgui import check
+import checkhashgui
 
 
 class HashCheckTest(TestCase):
@@ -47,7 +47,7 @@ class HashCheckTest(TestCase):
         self.assert_ok(message)
 
     def test_file_input_error_is_displayed(self):
-        message = check("/tmp/bad/filename/sn3t4ohtu", "a" * 40)
+        message = checkhashgui.check("/tmp/bad/filename/sn3t4ohtu", "a" * 40)
         self.assertIn("No such file or directory", message)
         self.assertNotIn("OK", message)
 
@@ -62,12 +62,24 @@ class HashCheckTest(TestCase):
         self.assertNotIn(":-)", message)
 
 
+class ControllerTest(TestCase):
+    def test_shows_about(self):
+        view = Mock()
+        checkhashgui.MainController(Mock(), view).about()
+        message = view.set_text.call_args.args[0]
+        self.assertTrue(message.startswith(
+            "CHECKHASHGUI - Calculates the checksum"))
+        self.assertIn("Copyright (c) 2012-2014 Per Tunedal", message)
+        self.assertIn("Copyright (c) 2022 Henrik Tunedal", message)
+        self.assertIn("This program is free software", message)
+
+
 def check_hash(content, input_hash):
     with TemporaryDirectory() as tempdir:
         filename = Path(tempdir) / "test.txt"
         with filename.open("wb") as f:
             f.write(content)
-        return check(str(filename), input_hash + "\n")
+        return checkhashgui.check(str(filename), input_hash + "\n")
 
 
 if __name__ == "__main__":
