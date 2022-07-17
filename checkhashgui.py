@@ -31,46 +31,44 @@
 # Minor improvements. Cleaning of code and comments.
 
 
-import sys, hashlib, time
-#import sys, hashlib, string, time
-from tkinter import *
-import tkinter.filedialog
-import webbrowser
+import hashlib, webbrowser
+import tkinter as tk, tkinter.filedialog as filedialog
+from tkinter import E, W, INSERT, END
 
-root = Tk()
+root = tk.Tk()
 
 root.title("CHECK HASH")
 
-c0 = Label(root, text="Check the HASH of a file", font="georgia 16 bold")
+c0 = tk.Label(root, text="Check the HASH of a file", font="georgia 16 bold")
 c0.grid(row=0, column=0, columnspan=3)
 
-c1 = Label(root, text="Please enter the FILENAME (full path): ")
+c1 = tk.Label(root, text="Please enter the FILENAME (full path): ")
 c1.grid(row=1, column=0, sticky=E)
 
-InputString1 = StringVar()
-Entry(root, width=30, textvariable=InputString1).grid(row=1, column=1, columnspan=3, sticky=W)
+InputString1 = tk.StringVar()
+tk.Entry(root, width=30, textvariable=InputString1).grid(row=1, column=1, columnspan=3, sticky=W)
 
 # wrap=word breaks too long lines after a word, not a character.
-textw = Text(root, wrap="word")
+textw = tk.Text(root, wrap="word")
 textw.insert(INSERT, "Please enter the hash here ...")
 textw.grid(row=2, columnspan=4)
 
 
 def GetString():
     # Browse button
-    Button(root, text=' Browse ... ', command=browse).grid(row=1, column=2, sticky=E)
-    Button(root, text=' Help ', command=help).grid(row=0, column=3, sticky=E)
-    Button(root, text='About', command=about).grid(row=1, column=3, sticky=E)
-    Button(root, text='Clear', command=ClearText).grid(row=3, column=0, sticky=W)
-    Button(root, text='Check', fg="white", bg="blue", command=Check).grid(row=3, column=1, sticky=W)
-    Button(root, text='QUIT', command=quit).grid(row=3, column=3, sticky=E)
+    tk.Button(root, text=' Browse ... ', command=browse).grid(row=1, column=2, sticky=E)
+    tk.Button(root, text=' Help ', command=help).grid(row=0, column=3, sticky=E)
+    tk.Button(root, text='About', command=about).grid(row=1, column=3, sticky=E)
+    tk.Button(root, text='Clear', command=ClearText).grid(row=3, column=0, sticky=W)
+    tk.Button(root, text='Check', fg="white", bg="blue", command=Check).grid(row=3, column=1, sticky=W)
+    tk.Button(root, text='QUIT', command=quit).grid(row=3, column=3, sticky=E)
     root.mainloop()
 
 def ClearText():
     textw.delete('0.0', END)
 
 def browse():
-    file = tkinter.filedialog.askopenfilename(title="Open a file...")
+    file = filedialog.askopenfilename(title="Open a file...")
     InputString1.set(file)
 
 def Check():
