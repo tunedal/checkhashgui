@@ -66,15 +66,26 @@ def main():
     textw.insert(INSERT, "Please enter the hash here ...")
     textw.grid(row=2, columnspan=4, sticky=E + W + S + N)
 
+    tk.Button(root, text=' Browse ... ', command=browse).grid(
+        row=1, column=2, sticky=E)
+    tk.Button(root, text=' Help ', command=help).grid(
+        row=0, column=3, sticky=E)
+    tk.Button(root, text='About', command=about).grid(
+        row=1, column=3, sticky=E)
+
+    button_frame = tk.Frame(root)
+    tk.Button(button_frame, text='Clear', command=clear_text).grid(
+        row=0, column=0, sticky=W)
+    tk.Button(button_frame, text='Check', fg="white", bg="blue",
+              command=check).grid(row=0, column=1, ipadx=20)
+    tk.Button(button_frame, text='QUIT', command=quit).grid(
+        row=0, column=2, sticky=E)
+    button_frame.columnconfigure(1, weight=1)
+    button_frame.grid(row=3, column=0, columnspan=4, sticky=E + W)
+
     root.rowconfigure(2, weight=1)
     root.columnconfigure(1, weight=1)
 
-    tk.Button(root, text=' Browse ... ', command=browse).grid(row=1, column=2, sticky=E)
-    tk.Button(root, text=' Help ', command=help).grid(row=0, column=3, sticky=E)
-    tk.Button(root, text='About', command=about).grid(row=1, column=3, sticky=E)
-    tk.Button(root, text='Clear', command=clear_text).grid(row=3, column=0, sticky=W)
-    tk.Button(root, text='Check', fg="white", bg="blue", command=check).grid(row=3, column=1, sticky=W)
-    tk.Button(root, text='QUIT', command=quit).grid(row=3, column=3, sticky=E)
     root.mainloop()
 
 
