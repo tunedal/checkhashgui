@@ -168,8 +168,7 @@ def check(filename, input_hash):
         text = text + '=======================\n'
         text = text + 'FEL: ingen fil angiven!\n'
         text = text + '=======================\n'
-        print("")
-        print(text)
+        return text
 
     text = text + 'Fil: ' + filename + '\n\n'
 
