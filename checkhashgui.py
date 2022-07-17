@@ -59,7 +59,7 @@ def main():
 
     filename_input = tk.StringVar()
     tk.Entry(root, width=30, textvariable=filename_input).grid(
-        row=1, column=1, columnspan=3, sticky=W)
+        row=1, column=1, sticky=E + W)
 
     # wrap=word breaks too long lines after a word, not a character.
     textw = tk.Text(root, wrap="word")
@@ -67,8 +67,6 @@ def main():
     textw.grid(row=2, columnspan=4, sticky=E + W + S + N)
 
     root.rowconfigure(2, weight=1)
-
-    root.columnconfigure(0, weight=1)
     root.columnconfigure(1, weight=1)
 
     get_string()
