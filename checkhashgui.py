@@ -69,11 +69,6 @@ def main():
     root.rowconfigure(2, weight=1)
     root.columnconfigure(1, weight=1)
 
-    get_string()
-
-
-def get_string():
-    # Browse button
     tk.Button(root, text=' Browse ... ', command=browse).grid(row=1, column=2, sticky=E)
     tk.Button(root, text=' Help ', command=help).grid(row=0, column=3, sticky=E)
     tk.Button(root, text='About', command=about).grid(row=1, column=3, sticky=E)
