@@ -39,7 +39,8 @@
 
 
 import hashlib, webbrowser
-import tkinter as tk, tkinter.filedialog as filedialog
+import tkinter as tk, tkinter.ttk as ttk
+import tkinter.filedialog as filedialog
 from tkinter import E, W, S, N, INSERT, END
 
 
@@ -47,44 +48,49 @@ def main():
     global root, filename_input, textw
 
     root = tk.Tk()
-
     root.title("CHECK HASH")
 
-    c0 = tk.Label(root, text="Check the HASH of a file",
+    content = ttk.Frame(root)
+    content.grid(row=0, column=0, sticky=E + W + S + N)
+
+    c0 = ttk.Label(content, text="Check the HASH of a file",
                   font="georgia 16 bold")
     c0.grid(row=0, column=0, columnspan=3)
 
-    c1 = tk.Label(root, text="Please enter the FILENAME (full path): ")
+    c1 = ttk.Label(content, text="Please enter the FILENAME (full path): ")
     c1.grid(row=1, column=0, sticky=E)
 
     filename_input = tk.StringVar()
-    tk.Entry(root, width=30, textvariable=filename_input).grid(
+    ttk.Entry(content, width=30, textvariable=filename_input).grid(
         row=1, column=1, sticky=E + W)
 
     # wrap=word breaks too long lines after a word, not a character.
-    textw = tk.Text(root, wrap="word")
+    textw = tk.Text(content, wrap="word")
     textw.insert(INSERT, "Please enter the hash here ...")
     textw.grid(row=2, columnspan=4, sticky=E + W + S + N)
 
-    tk.Button(root, text=' Browse ... ', command=browse).grid(
+    ttk.Button(content, text=' Browse ... ', command=browse).grid(
         row=1, column=2, sticky=E)
-    tk.Button(root, text=' Help ', command=help).grid(
+    ttk.Button(content, text=' Help ', command=help).grid(
         row=0, column=3, sticky=E)
-    tk.Button(root, text='About', command=about).grid(
+    ttk.Button(content, text='About', command=about).grid(
         row=1, column=3, sticky=E)
 
-    button_frame = tk.Frame(root)
-    tk.Button(button_frame, text='Clear', command=clear_text).grid(
+    button_frame = ttk.Frame(content)
+    ttk.Button(button_frame, text='Clear', command=clear_text).grid(
         row=0, column=0, sticky=W)
     tk.Button(button_frame, text='Check', fg="white", bg="blue",
               command=check).grid(row=0, column=1, ipadx=20)
-    tk.Button(button_frame, text='QUIT', command=quit).grid(
+    ttk.Button(button_frame, text='QUIT', command=quit).grid(
         row=0, column=2, sticky=E)
     button_frame.columnconfigure(1, weight=1)
     button_frame.grid(row=3, column=0, columnspan=4, sticky=E + W)
 
-    root.rowconfigure(2, weight=1)
-    root.columnconfigure(1, weight=1)
+    content.rowconfigure(2, weight=1)
+    content.columnconfigure(1, weight=1)
+
+    root.rowconfigure(0, weight=1)
+    root.columnconfigure(0, weight=1)
 
     root.mainloop()
 
