@@ -226,6 +226,7 @@ def about():
     text = text + 'Copyright (c) 2012-2014 Per Tunedal, Stockholm, Sweden\n'
     text = text + 'Author: Per Tunedal <info@tunedal.nu>\n'
     text = text + 'www.kryptera.tunedal.nu\n\n'
+    text = text + 'Minor modifications by Henrik Tunedal (2022).\n\n'
     text = text + 'This program is free software: you can redistribute it and/or modify '
     text = text + 'it under the terms of the GNU General Public License as published by '
     text = text + 'the Free Software Foundation, either version 3 of the License, or '
